@@ -8,5 +8,8 @@
         public string CategoryCode { get; set; } = string.Empty;
         [Required]
         public bool IsActive { get; set; }
+
+        [NotMapped]
+        public ErrorMessage ErrorMessage { get; set; } = new ErrorMessage();
     }
 }

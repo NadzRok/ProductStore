@@ -13,6 +13,8 @@ global using ProductStore.Service.UserServices;
 global using System.ComponentModel.DataAnnotations;
 global using Microsoft.EntityFrameworkCore;
 global using ProductStore.Context;
+global using ProductStore.Service.ProductService;
+global using ProductStore.Service.Catagory;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -25,6 +27,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IProductsService, ProductsService>();
+builder.Services.AddScoped<ICatagoryService, CatagoryService>();
 builder.Services.AddHttpContextAccessor();
 var connectionString = builder.Configuration.GetConnectionString("myconn");
 builder.Services.AddDbContext<ProductDbContext>(x => x.UseSqlServer(connectionString));
@@ -47,7 +51,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 builder.Services.AddCors(options => options.AddPolicy(name: "ProductFront",
     policy => {
-        policy.WithOrigins("https://localhost:7194").AllowAnyMethod().AllowAnyHeader();
+        policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
     }));
 
 var app = builder.Build();

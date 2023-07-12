@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace ProductStore.Service.UserServices {
+﻿namespace ProductStore.Service.UserServices {
     public class UserService : IUserService {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -11,9 +9,9 @@ namespace ProductStore.Service.UserServices {
         public string GetUserName() {
             var returnResult = string.Empty;
             if(_httpContextAccessor != null) {
-                returnResult = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+                returnResult = _httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.Name);
             }
-            return returnResult;
+            return returnResult!;
         }
     }
 }

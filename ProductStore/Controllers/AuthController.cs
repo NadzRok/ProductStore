@@ -1,17 +1,13 @@
-﻿
-
-using ProductStore.Models;
-
-namespace ProductStore.Controllers
+﻿namespace ProductStore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase {
         private readonly ProductDbContext _productDbContext;
-        private IConfiguration _config;
-        private IUserService _userService;
+        private readonly IConfiguration _config;
+        private readonly IUserService _userService;
 
-        public AuthController(IConfiguration config, IUserService userService, ProductDbContext productDbContext) {
+        private AuthController(IConfiguration config, IUserService userService, ProductDbContext productDbContext) {
             _config = config;
             _userService = userService;
             _productDbContext = productDbContext;
@@ -49,7 +45,7 @@ namespace ProductStore.Controllers
             if (user == null) {
                 return BadRequest("Username/Password incorrect.");
             }
-            if(!VerifyPasswordHash(Login.Password, user.PasswordHash, user.PasswordSalt)) {
+            if(!VerifyPasswordHash(Login.Password, user.PasswordHash!, user.PasswordSalt!)) {
                 return BadRequest("Username/Password incorrect.");
             }
             string token = CreateToken(user);

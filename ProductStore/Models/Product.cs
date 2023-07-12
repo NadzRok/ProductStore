@@ -9,9 +9,11 @@
         public string Description { get; set; } = string.Empty;
         [Required]
         public decimal Price { get; set; }
+        [Required]
         public string ImageUrl { get; set; } = string.Empty;
+        public int CatagorieId { get; set; }
 
-        [Required, ForeignKey("CatagoryId")]
-        public Category Catagories { get; set; }
+        [NotMapped]
+        public ErrorMessage ErrorMessage { get; set; } = new ErrorMessage();
     }
 }

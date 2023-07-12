@@ -1,6 +1,4 @@
-﻿
-
-namespace ProductStore.Context {
+﻿namespace ProductStore.Context {
     public class ProductDbContext : DbContext {
         public ProductDbContext(DbContextOptions<ProductDbContext> options) : base(options) {
 
