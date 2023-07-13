@@ -72,17 +72,17 @@
         }
 
         [HttpDelete("deletecatagory")]
-        public async Task<ActionResult<Category>> DeleteCatagory(int CatagoryId) {
+        public async Task<ActionResult<bool>> DeleteCatagory(int CatagoryId) {
             if(CatagoryId == 0) {
-                return BadRequest(new Category() { ErrorMessage = new ErrorMessage() { IsError = true, Message = $"No catagory." } });
+                return BadRequest(false);
             }
             var catagoryToDelete = await _productDbContext.Categorys.FirstOrDefaultAsync(ptd => ptd.CategoryId == CatagoryId);
             if(catagoryToDelete == null) {
-                return BadRequest(new Category() { ErrorMessage = new ErrorMessage() { IsError = true, Message = $"No catagory found to delete." } });
+                return BadRequest(false);
             }
             _productDbContext.Categorys.Remove(catagoryToDelete);
             await _productDbContext.SaveChangesAsync();
-            return Ok(catagoryToDelete);
+            return Ok(true);
         }
     }
 }

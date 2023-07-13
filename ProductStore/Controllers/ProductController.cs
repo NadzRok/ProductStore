@@ -38,7 +38,7 @@
                 ImageUrl = ProductToAdd.ImageUrl,
                 CatagorieId = ProductToAdd.CatagorieId
             };
-            newProduct.ProductCode = _productService.GetProductCode(_productDbContext.Products.Count() + 1);
+            newProduct.ProductCode = _productService.GetProductCode();
             await _productDbContext.AddAsync(newProduct);
             await _productDbContext.SaveChangesAsync();
             return Ok(newProduct);
@@ -63,17 +63,17 @@
         }
 
         [HttpDelete("deleteproduct")]
-        public async Task<ActionResult<string>> DeleteProduct(int ProductId) {
+        public async Task<ActionResult<bool>> DeleteProduct(int ProductId) {
             if(ProductId == 0) {
-                return BadRequest(new Product() { ErrorMessage = new ErrorMessage() { IsError = true, Message = $"No product." } });
+                return BadRequest(false);
             }
             var productToDelete = await _productDbContext.Products.FirstOrDefaultAsync(ptd => ptd.ProductId == ProductId);
             if(productToDelete == null) {
-                return BadRequest(new Product() { ErrorMessage = new ErrorMessage() { IsError = true, Message = $"No product found to delete." } });
+                return BadRequest(false);
             }
             _productDbContext.Products.Remove(productToDelete);
             await _productDbContext.SaveChangesAsync();
-            return Ok(productToDelete);
+            return Ok(true);
         }
     }
 }
